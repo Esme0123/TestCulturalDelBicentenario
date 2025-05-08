@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2025 a las 01:09:08
+-- Tiempo de generación: 08-05-2025 a las 23:00:51
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -276,7 +276,9 @@ CREATE TABLE `resultado_pregunta` (
   `id_pregunta` bigint(20) UNSIGNED DEFAULT NULL,
   `id_resu` bigint(20) UNSIGNED DEFAULT NULL,
   `es_correcta` tinyint(1) DEFAULT NULL,
-  `explicacion` varchar(100) DEFAULT NULL
+  `explicacion` varchar(100) DEFAULT NULL,
+  `texto_respuesta_abierta` varchar(100) DEFAULT NULL,
+  `id_respuesta` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -468,7 +470,8 @@ ALTER TABLE `resultado_pregunta`
   ADD PRIMARY KEY (`id_resultado_pregunta`),
   ADD KEY `id_historial` (`id_historial`),
   ADD KEY `id_pregunta` (`id_pregunta`),
-  ADD KEY `id_resu` (`id_resu`);
+  ADD KEY `id_resu` (`id_resu`),
+  ADD KEY `fk_res_res` (`id_respuesta`);
 
 --
 -- Indices de la tabla `tests`
@@ -671,6 +674,7 @@ ALTER TABLE `respuestasusuario`
 -- Filtros para la tabla `resultado_pregunta`
 --
 ALTER TABLE `resultado_pregunta`
+  ADD CONSTRAINT `fk_res_res` FOREIGN KEY (`id_respuesta`) REFERENCES `respuestas` (`id_respuesta`),
   ADD CONSTRAINT `resultado_pregunta_ibfk_1` FOREIGN KEY (`id_historial`) REFERENCES `historial_tests` (`id_historial`),
   ADD CONSTRAINT `resultado_pregunta_ibfk_2` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas` (`id_pregunta`),
   ADD CONSTRAINT `resultado_pregunta_ibfk_3` FOREIGN KEY (`id_resu`) REFERENCES `respuestasusuario` (`id_resu`);
