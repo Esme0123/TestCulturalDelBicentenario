@@ -1,0 +1,154 @@
+/* src/components/layout/Navbar.css */
+
+.navbar {
+    background-color: var(--surface-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07); /* Sombra más suave */
+    padding: 0.8rem 0; /* Ajustar padding vertical */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    font-size: 1.6rem; /* Un poco más grande */
+    font-weight: 700; /* Más bold */
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre icono y texto */
+  }
+  .navbar-brand .brand-icon { /* Si usas una clase para el icono */
+    font-size: 1.8rem; /* Ajusta el tamaño del emoji/icono */
+    color: var(--accent-color-red); /* Color de acento para el icono */
+  }
+  
+  .navbar-nav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 1.2rem; /* Espacio entre elementos principales */
+  }
+  
+  .nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 0.2rem; /* Padding para hover y active state */
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    display: inline-flex; /* Para alinear iconos si los añades */
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .nav-link:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600; /* Un poco más de peso para el activo */
+    border-bottom-color: var(--primary-color);
+  }
+  
+  /* Estilo específico para el enlace de Admin */
+  .nav-link.admin-link {
+      color: var(--accent-color-red);
+      border-bottom-color: transparent; /* Sin borde por defecto */
+  }
+  .nav-link.admin-link:hover {
+      color: #a71d2a;
+      border-bottom-color: #a71d2a;
+  }
+  .nav-link.admin-link.active {
+      color: #a71d2a;
+      border-bottom-color: #a71d2a;
+      font-weight: 600;
+  }
+  
+  /* Botones en la Navbar */
+  .navbar .button {
+      padding: 8px 16px; /* Ajustar padding */
+      font-size: 0.9rem;
+      text-decoration: none;
+  }
+  
+  .button-logout {
+    background-color: var(--accent-color-red);
+    color: var(--text-color-light);
+    border: none;
+  }
+  .button-logout:hover {
+    background-color: #c82333;
+  }
+  
+  .button-register {
+    background-color: var(--accent-color-green); /* Usar verde para registrarse */
+    color: var(--text-color-light);
+    border: none;
+  }
+  .button-register:hover {
+    background-color: #005235;
+  }
+  
+  /* Estilos para los iconos dentro de los NavLink (si los usas) */
+  .nav-link .icon {
+    width: 1.1em;
+    height: 1.1em;
+    margin-right: 0.3em;
+  }
+  
+  /* Menú hamburguesa para móviles (básico, necesitaría JS para funcionar) */
+  .navbar-toggler {
+    display: none; /* Oculto en desktop */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+  }
+  
+ @media (max-width: 768px) {
+    .navbar-nav {
+      display: none; /* Ocultar menú normal en móviles*/
+      flex-direction: column;
+      position: absolute;
+      top: 100%; /* Debajo de la navbar*/
+      left: 0;
+      width: 100%;
+      background-color: var(--surface-color);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+    }
+    .navbar-nav.open { /* Clase que se añade con JS*/
+      display: flex;
+    }
+    .navbar-nav li {
+      width: 100%;
+      text-align: center;
+    }
+    .navbar-nav .nav-link {
+      display: block;
+      padding: 0.8rem 1rem;
+      border-bottom: none; /* Quitar borde inferior en móvil*/
+    }
+    .navbar-nav .nav-link.active {
+      background-color: var(--primary-color);
+      color: var(--text-color-light);
+      border-radius: var(--border-radius);
+      margin: 0 0.5rem;
+    }
+    .navbar-toggler {
+      display: block; /* Mostrar en móviles*/
+    }
+  } 
+  

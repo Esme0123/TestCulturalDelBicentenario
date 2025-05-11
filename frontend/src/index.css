@@ -1,0 +1,158 @@
+/* src/index.css */
+
+/* Variables CSS para colores y fuentes (Opcional pero recomendado) */
+:root {
+  --primary-color: #0056b3; /* Azul principal (similar al anterior) */
+  --primary-color-dark: #004085;
+  --secondary-color: #6c757d; /* Gris secundario */
+  --accent-color-red: #d93025; /* Rojo (inspirado en bandera Bolivia) */
+  --accent-color-yellow: #fabd05; /* Amarillo (inspirado en bandera Bolivia) */
+  --accent-color-green: #006847; /* Verde (inspirado en bandera Bolivia) */
+
+  --text-color: #343a40;
+  --text-color-light: #f8f9fa;
+  --background-color: #f4f6f9; /* Un gris más suave para el fondo */
+  --surface-color: #ffffff; /* Para tarjetas, modales, etc. */
+  --border-color: #dee2e6;
+
+  --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family-serif: 'Georgia', 'Times New Roman', serif; /* Para títulos si quieres un toque más formal */
+
+  --border-radius: 6px;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Estilos globales básicos */
+body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estilos generales para enlaces y botones */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-color-dark);
+  text-decoration: underline;
+}
+
+button {
+  padding: 10px 18px;
+  border-radius: var(--border-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  display: inline-flex; /* Para alinear iconos y texto */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Espacio entre icono y texto */
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Clases de utilidad */
+.container {
+  width: 90%;
+  max-width: 1280px; /* Un poco más ancho */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.text-center { text-align: center; }
+.text-danger { color: var(--accent-color-red); } /* Renombrado de text-red */
+.text-success { color: var(--accent-color-green); }
+.text-warning { color: var(--accent-color-yellow); }
+
+.text-sm { font-size: 0.875rem; }
+.text-lg { font-size: 1.25rem; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* Márgenes y Paddings básicos (puedes expandir esto) */
+.mt-1 { margin-top: 0.25rem; } .mt-2 { margin-top: 0.5rem; } .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mt-8 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 0.25rem; } .mb-2 { margin-bottom: 0.5rem; } .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; } .mb-8 { margin-bottom: 2rem; }
+.ml-1 { margin-left: 0.25rem; } .ml-2 { margin-left: 0.5rem; }
+.mr-1 { margin-right: 0.25rem; } .mr-2 { margin-right: 0.5rem; }
+.p-1 { padding: 0.25rem; } .p-2 { padding: 0.5rem; } .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .p-8 { padding: 2rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; } .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; } .px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+/* Estilo para tarjetas */
+.card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+.card-body {
+  /* Estilos para el cuerpo de la tarjeta */
+}
+.card-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end; /* Alinea acciones a la derecha */
+  gap: 0.5rem;
+}
+
+/* Iconos (usando emojis o podrías usar SVGs inline/como componentes) */
+.icon {
+  display: inline-block;
+  width: 1.2em; /* Ajustar tamaño según sea necesario */
+  height: 1.2em;
+  margin-right: 0.4em;
+  vertical-align: middle; /* Alinear mejor con el texto */
+}
+
+/* Para ocultar visualmente pero mantener accesible para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Animación simple de fade-in */
+.fade-in {
+  animation: fadeInAnimation 0.5s ease-in-out;
+}
+
+@keyframes fadeInAnimation {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

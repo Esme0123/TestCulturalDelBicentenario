@@ -1,0 +1,178 @@
+/* src/pages/ReviewPage.css */
+
+.review-page {
+    /* .container y .fade-in ya aplican estilos base */
+  }
+  
+  .review-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .review-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color-dark);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+  }
+  .review-header h2 { /* Nombre del test */
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.3rem;
+  }
+  .review-header .review-summary {
+    font-size: 1rem;
+    color: var(--secondary-color);
+  }
+  
+  .review-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem; /* Espacio entre cada item de pregunta */
+  }
+  
+  .review-question-item { /* Hereda de .card */
+    padding: 1.8rem; /* Más padding interno */
+    border-left-width: 5px; /* Borde lateral para indicar estado */
+    border-left-style: solid;
+  }
+  .review-question-item.correcta {
+    border-left-color: var(--accent-color-green);
+    background-color: #f0fff4; /* Fondo verde muy claro */
+  }
+  .review-question-item.incorrecta {
+    border-left-color: var(--accent-color-red);
+    background-color: #fff0f0; /* Fondo rojo muy claro */
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px dashed var(--border-color);
+  }
+  .question-number {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+  }
+  .status-badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--border-radius);
+    color: var(--text-color-light);
+  }
+  .status-correcta {
+    background-color: var(--accent-color-green);
+  }
+  .status-incorrecta {
+    background-color: var(--accent-color-red);
+  }
+  
+  .question-text-review {
+    font-size: 1.15rem; /* Texto de pregunta un poco más grande */
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+  }
+  
+  .answer-section {
+    margin-bottom: 1rem;
+  }
+  .answer-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .user-answer,
+  .correct-answer,
+  .explanation-text {
+    font-size: 1rem;
+    color: var(--text-color);
+    padding: 0.6rem;
+    background-color: rgba(0,0,0,0.02); /* Fondo muy sutil para respuestas */
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .user-answer .no-answer {
+      font-style: italic;
+      color: var(--secondary-color);
+  }
+  
+  .correct-answer-section .correct-answer {
+    background-color: #ddffdd; /* Fondo verde más claro para respuesta correcta */
+    border-color: #b2fab2;
+    font-weight: 500;
+  }
+  .review-question-item.correcta .user-answer { /* Si la respuesta del usuario es correcta */
+    background-color: #cce8cc;
+    border-color: #a8d8a8;
+  }
+  
+  
+  .explanation-section {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #ddd;
+  }
+  .explanation-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    background-color: #f5f5f5; /* Fondo gris claro para explicación */
+  }
+  
+  .resources-section {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #ddd;
+  }
+  .resources-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+  }
+  .resources-list li {
+    margin-bottom: 0.4rem;
+  }
+  .resources-list li a {
+    color: var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .resources-list li a:hover {
+    text-decoration: underline;
+    color: var(--primary-color-dark);
+  }
+  .resources-list li a span[role="img"] { /* Icono de enlace */
+    font-size: 0.9em;
+  }
+  
+  
+  .review-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; /* Más espacio entre botones */
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .review-actions .button {
+    min-width: 180px; /* Ancho mínimo para botones */
+    padding: 10px 22px;
+  }
+  .review-actions .button .icon {
+    font-size: 1.1em;
+  }
+  
