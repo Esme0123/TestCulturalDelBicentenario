@@ -11,10 +11,10 @@ if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <BrowserRouter>
-        <AuthProvider> {/* AuthProvider envuelve a App */}
+        <AuthProvider>  {/*AuthProvider envuelve a App */}
           <App />
         </AuthProvider>
-       </BrowserRouter>
+      </BrowserRouter>
     </React.StrictMode>
   );
 } else {

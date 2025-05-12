@@ -5,7 +5,7 @@ import { useAuth } from './contexts/AuthContext';
 
 // Layouts
 import AppLayout from './layouts/AppLayout';
-//import AdminLayout from './layouts/AdminLayout';
+import AdminLayout from './layouts/AdminLayout';
 
 // Pages Públicas
 import HomePage from './pages/HomePage';
@@ -23,9 +23,9 @@ import ProfilePage from './pages/ProfilePage';
 //import DesafiosPage from './pages/DesafiosPage';
 
 // Pages de Admin (Requieren Rol Admin)
-//import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminQuestionsPage from './pages/admin/AdminQuestionsPage';
-//import AdminTestsPage from './pages/admin/AdminTestsPage';
+import AdminTestsPage from './pages/admin/AdminTestsPage';
 //import AdminUsersPage from './pages/admin/AdminUsersPage';
 
 // UI Components
@@ -91,7 +91,7 @@ function App() {
         <Route path="revision/:id_historial" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
         <Route path="historial" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
         <Route path="perfil" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-        <Route path="desafios" element={<ProtectedRoute><DesafiosPage /></ProtectedRoute>} />
+        {/*<Route path="desafios" element={<ProtectedRoute><DesafiosPage /></ProtectedRoute>} />*/}
 
         <Route path="*" element={<NotFoundPage />} />
       </Route>
@@ -100,7 +100,7 @@ function App() {
           <Route index element={<AdminDashboardPage />} />
           <Route path="preguntas" element={<AdminQuestionsPage />} />
           <Route path="tests" element={<AdminTestsPage />} />
-          <Route path="usuarios" element={<AdminUsersPage />} />
+          {/*<Route path="usuarios" element={<AdminUsersPage />} />*/}
           <Route path="*" element={<NotFoundPage section="Admin" />} />
       </Route>
     </Routes>
@@ -116,5 +116,5 @@ function NotFoundPage({ section = "General" }) {
         </div>
     );
 }
-
+console.log("App.jsx renderizado");
 export default App;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/authContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import './FormStyles.css';
 import LoadingSpinner from '../components/ui/LoadingSpinner'; // Importar Spinner
