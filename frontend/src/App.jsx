@@ -20,13 +20,13 @@ import ResultsPage from './pages/ResultsPage';
 import ReviewPage from './pages/ReviewPage'; 
 import HistoryPage from './pages/HistoryPage'; 
 import ProfilePage from './pages/ProfilePage'; 
-//import DesafiosPage from './pages/DesafiosPage';
+import DesafiosPage from './pages/DesafiosPage';
 
 // Pages de Admin (Requieren Rol Admin)
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminQuestionsPage from './pages/admin/AdminQuestionsPage';
 import AdminTestsPage from './pages/admin/AdminTestsPage';
-//import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 
 // UI Components
 import LoadingSpinner from './components/ui/LoadingSpinner'; // Para el estado de carga global
@@ -91,7 +91,7 @@ function App() {
         <Route path="revision/:id_historial" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
         <Route path="historial" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
         <Route path="perfil" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-        {/*<Route path="desafios" element={<ProtectedRoute><DesafiosPage /></ProtectedRoute>} />*/}
+        <Route path="desafios" element={<ProtectedRoute><DesafiosPage /></ProtectedRoute>} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Route>
@@ -100,7 +100,7 @@ function App() {
           <Route index element={<AdminDashboardPage />} />
           <Route path="preguntas" element={<AdminQuestionsPage />} />
           <Route path="tests" element={<AdminTestsPage />} />
-          {/*<Route path="usuarios" element={<AdminUsersPage />} />*/}
+          <Route path="usuarios" element={<AdminUsersPage />} />
           <Route path="*" element={<NotFoundPage section="Admin" />} />
       </Route>
     </Routes>

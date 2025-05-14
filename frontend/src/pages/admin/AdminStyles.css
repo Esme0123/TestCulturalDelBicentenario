@@ -283,4 +283,17 @@
   .form-actions .button {
       min-width: 120px; /* Ancho mínimo para botones de acción */
   }
-  
+  .role-tag {
+  padding: 0.2em 0.6em;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color-light);
+}
+.role-tag.role-admin {
+  background-color: var(--accent-color-red);
+}
+.role-tag.role-user {
+  background-color: var(--accent-color-green);
+}

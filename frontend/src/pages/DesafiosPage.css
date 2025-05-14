@@ -1,0 +1,134 @@
+/* src/pages/DesafiosPage.css */
+
+.desafios-page {
+  /* .container y .fade-in ya aplican estilos base */
+}
+
+.desafios-page .page-header {
+  display: flex;
+  flex-direction: column; /* Apilar en móvil */
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.desafios-page .page-header h1 {
+  margin-bottom: 0; /* Quitar margen inferior si está en flex */
+}
+.create-desafio-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+.create-desafio-button .icon {
+  font-size: 1.1em;
+}
+
+@media (min-width: 768px) {
+  .desafios-page .page-header {
+    flex-direction: row; /* Lado a lado en desktop */
+  }
+}
+
+
+.desafios-section { /* Hereda de .card */
+  margin-bottom: 2rem;
+}
+.desafios-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color-dark);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.desafios-list {
+  list-style: none;
+  padding: 0;
+}
+
+.desafio-item {
+  display: flex;
+  flex-direction: column; /* Apilar en móvil */
+  justify-content: space-between;
+  align-items: flex-start; /* Alinear items al inicio */
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  background-color: #fdfdfd;
+  gap: 0.8rem;
+}
+.desafio-item:last-child {
+  margin-bottom: 0;
+}
+
+.desafio-info p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+.desafio-info p strong {
+  color: var(--primary-color);
+  margin-right: 0.3rem;
+}
+
+.desafio-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.5rem; /* Espacio si se apila */
+  width: 100%; /* Ocupar ancho en móvil */
+}
+.desafio-actions .button {
+  flex-grow: 1; /* Botones ocupan espacio disponible */
+}
+.button-success { /* Botón de aceptar */
+    background-color: var(--accent-color-green);
+    color: var(--text-color-light);
+    border-color: var(--accent-color-green);
+}
+.button-success:hover {
+    background-color: #005235;
+    border-color: #005235;
+}
+
+
+@media (min-width: 768px) {
+  .desafio-item {
+    flex-direction: row; /* Lado a lado en desktop */
+    align-items: center;
+  }
+  .desafio-actions {
+    margin-top: 0;
+    width: auto; /* Ancho automático en desktop */
+  }
+   .desafio-actions .button {
+    flex-grow: 0;
+  }
+}
+
+
+/* Estilos para los badges de estado (similar a AdminUsersPage) */
+.desafio-item .status-badge {
+  padding: 0.25em 0.7em;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--text-color-light);
+  display: inline-block;
+}
+.status-pendiente { background-color: var(--accent-color-yellow); color: #333; }
+.status-aceptado { background-color: var(--accent-color-green); }
+.status-rechazado { background-color: var(--accent-color-red); }
+.status-en-curso { background-color: var(--primary-color); }
+.status-finalizado { background-color: var(--secondary-color); }
+.status-cancelado { background-color: #adb5bd; color: #333;}
+
+
+.no-data-message { /* Para cuando no hay desafíos */
+  font-style: italic;
+  color: var(--secondary-color);
+  padding: 1rem;
+  text-align: center;
+}
