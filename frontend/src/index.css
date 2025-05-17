@@ -2,25 +2,28 @@
 
 /* Variables CSS para colores y fuentes (Opcional pero recomendado) */
 :root {
-  --primary-color: #0056b3; 
-  --primary-color-dark: #004085;
-  --secondary-color: #6c757d; 
-  --accent-color-red: #d93025; 
-  --accent-color-yellow: #fabd05; 
-  --accent-color-green: #006847;
+  --primary-color: #C8102E;      /* Rojo bandera */
+  --primary-color-dark: #8B0000;
+  --secondary-color: #6e5e04;    /* Amarillo dorado */
+  --tertiary-color: #007A33;     /* Verde bandera */
+
+  --accent-color-red: #a4161a;
+  --accent-color-yellow: #ffd700;
+  --accent-color-green: #007a33;
 
   --text-color: #343a40;
   --text-color-light: #f8f9fa;
-  --background-color: #ffffff; 
-  --surface-color: #ffffff; 
+  --background-color: #fffdf8;
+  --surface-color: #ffffff;
   --border-color: #dee2e6;
 
-  --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --font-family-serif: 'Georgia', 'Times New Roman', serif; /* Para títulos si quieres un toque más formal */
+  --font-family-sans: 'Poppins', sans-serif;
+  --font-family-serif: 'Merriweather', serif;
 
-  --border-radius: 6px;
+  --border-radius: 12px;
   --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
+
 
 /* Estilos globales básicos */
 body {
@@ -113,9 +116,7 @@ button:disabled {
   margin-bottom: 1rem;
   color: var(--primary-color);
 }
-.card-body {
-  /* Estilos para el cuerpo de la tarjeta */
-}
+
 .card-actions {
   margin-top: 1rem;
   display: flex;
@@ -148,6 +149,23 @@ button:disabled {
 /* Animación simple de fade-in */
 .fade-in {
   animation: fadeInAnimation 0.5s ease-in-out;
+}
+.bolivian-flag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 120px;
+  height: auto;
+  animation: flamear 3s ease-in-out infinite;
+  z-index: 1000;
+}
+
+@keyframes flamear {
+  0% { transform: rotateZ(0deg) translateX(0); }
+  25% { transform: rotateZ(1deg) translateX(1px); }
+  50% { transform: rotateZ(0deg) translateX(0); }
+  75% { transform: rotateZ(-1deg) translateX(-1px); }
+  100% { transform: rotateZ(0deg) translateX(0); }
 }
 
 @keyframes fadeInAnimation {

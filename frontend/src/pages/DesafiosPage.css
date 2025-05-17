@@ -1,134 +1,186 @@
-/* src/pages/DesafiosPage.css */
-
 .desafios-page {
-  /* .container y .fade-in ya aplican estilos base */
+  background-color: #faf8f4;
+  padding-bottom: 3rem;
 }
 
+/* Título principal */
 .desafios-page .page-header {
   display: flex;
-  flex-direction: column; /* Apilar en móvil */
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
 }
 .desafios-page .page-header h1 {
-  margin-bottom: 0; /* Quitar margen inferior si está en flex */
+  margin-bottom: 0;
+  font-family: 'Merriweather', serif;
+  font-size: 2rem;
+  color: var(--primary-color);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
+
+/* Botón crear desafío */
 .create-desafio-button {
-  padding: 10px 20px;
+  padding: 10px 22px;
   font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.create-desafio-button:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
 }
 .create-desafio-button .icon {
-  font-size: 1.1em;
+  font-size: 1.2rem;
 }
 
 @media (min-width: 768px) {
   .desafios-page .page-header {
-    flex-direction: row; /* Lado a lado en desktop */
+    flex-direction: row;
+    text-align: left;
   }
 }
 
-
-.desafios-section { /* Hereda de .card */
-  margin-bottom: 2rem;
+/* Sección de desafíos */
+.desafios-section {
+  margin-bottom: 2.5rem;
 }
 .desafios-section h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--primary-color-dark);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
   margin-bottom: 1.2rem;
   padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--primary-color);
 }
 
+/* Lista */
 .desafios-list {
   list-style: none;
   padding: 0;
 }
 
+/* Ítem individual */
 .desafio-item {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
   display: flex;
-  flex-direction: column; /* Apilar en móvil */
-  justify-content: space-between;
-  align-items: flex-start; /* Alinear items al inicio */
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  margin-bottom: 1rem;
-  background-color: #fdfdfd;
-  gap: 0.8rem;
+  flex-direction: column;
+  gap: 1rem;
+  transition: box-shadow 0.3s ease;
 }
-.desafio-item:last-child {
-  margin-bottom: 0;
+.desafio-item:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
 
 .desafio-info p {
   margin: 0.3rem 0;
-  font-size: 0.95rem;
-  color: var(--text-color);
+  font-size: 1rem;
+  color: #444;
 }
 .desafio-info p strong {
   color: var(--primary-color);
-  margin-right: 0.3rem;
+  margin-right: 0.4rem;
 }
 
+/* Acciones */
 .desafio-actions {
   display: flex;
   gap: 0.8rem;
-  margin-top: 0.5rem; /* Espacio si se apila */
-  width: 100%; /* Ocupar ancho en móvil */
+  margin-top: 0.5rem;
+  width: 100%;
 }
 .desafio-actions .button {
-  flex-grow: 1; /* Botones ocupan espacio disponible */
-}
-.button-success { /* Botón de aceptar */
-    background-color: var(--accent-color-green);
-    color: var(--text-color-light);
-    border-color: var(--accent-color-green);
-}
-.button-success:hover {
-    background-color: #005235;
-    border-color: #005235;
+  flex-grow: 1;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
+/* Botón aceptar */
+.button-success {
+  background-color: var(--tertiary-color);
+  color: #fff;
+  border: none;
+}
+.button-success:hover {
+  background-color: #005e27;
+  transform: scale(1.03);
+}
 
 @media (min-width: 768px) {
   .desafio-item {
-    flex-direction: row; /* Lado a lado en desktop */
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
   }
   .desafio-actions {
     margin-top: 0;
-    width: auto; /* Ancho automático en desktop */
+    width: auto;
   }
-   .desafio-actions .button {
+  .desafio-actions .button {
     flex-grow: 0;
   }
 }
 
-
-/* Estilos para los badges de estado (similar a AdminUsersPage) */
+/* Badges de estado */
 .desafio-item .status-badge {
-  padding: 0.25em 0.7em;
-  border-radius: 12px;
+  padding: 0.35em 0.8em;
+  border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: capitalize;
-  color: var(--text-color-light);
   display: inline-block;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-.status-pendiente { background-color: var(--accent-color-yellow); color: #333; }
-.status-aceptado { background-color: var(--accent-color-green); }
-.status-rechazado { background-color: var(--accent-color-red); }
-.status-en-curso { background-color: var(--primary-color); }
-.status-finalizado { background-color: var(--secondary-color); }
-.status-cancelado { background-color: #adb5bd; color: #333;}
 
+.status-pendiente {
+  background-color: #ffe066;
+  color: #8a6d00;
+}
+.status-aceptado {
+  background-color: var(--accent-color-green);
+  color: #fff;
+}
+.status-rechazado {
+  background-color: var(--accent-color-red);
+  color: #fff;
+}
+.status-en-curso {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+.status-finalizado {
+  background-color: var(--secondary-color);
+  color: #333;
+}
+.status-cancelado {
+  background-color: #ced4da;
+  color: #333;
+}
 
-.no-data-message { /* Para cuando no hay desafíos */
+/* Mensaje sin datos */
+.no-data-message {
   font-style: italic;
   color: var(--secondary-color);
-  padding: 1rem;
+  background-color: #fff3cd;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
   text-align: center;
+  border: 1px solid #ffeeba;
 }

@@ -1,96 +1,105 @@
-/* src/components/tests/TestCard.css */
-
 .test-card {
-    background-color: var(--surface-color);
-    border-radius: var(--border-radius);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-    overflow: hidden; /* Para que el borde superior no se salga */
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    border-top: 4px solid var(--card-accent-color, var(--primary-color)); /* Borde de acento */
-  }
-  
-  .test-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-  }
-  
-  .card-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* Para que el footer se alinee abajo */
-  }
-  
-  .card-header {
-    margin-bottom: 1rem;
-  }
-  
-  .card-title {
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0 0 0.4rem 0;
-    line-height: 1.3;
-  }
-  
-  .card-category {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-color-light);
-    background-color: var(--card-accent-color, var(--secondary-color));
-    padding: 0.2rem 0.6rem;
-    border-radius: 10px; /* Más redondeado para tags */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .card-description {
-    font-size: 0.95rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 1.2rem;
-    flex-grow: 1; /* Empuja el footer hacia abajo */
-    /* Limitar número de líneas (opcional, requiere más CSS) */
-    /* display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden; */
-  }
-  
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto; /* Asegura que el footer esté abajo */
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-  }
-  
-  .card-difficulty {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--secondary-color);
-    background-color: #e9ecef; /* Fondo gris claro para dificultad */
-    padding: 0.3rem 0.7rem;
-    border-radius: var(--border-radius);
-  }
-  
-  .card-button {
-    font-size: 0.9rem;
-    padding: 8px 18px; /* Botón un poco más pequeño */
-    background-color: var(--card-accent-color, var(--primary-color));
-    border-color: var(--card-accent-color, var(--primary-color));
-    color: var(--text-color-light);
-  }
-  .card-button:hover {
-    filter: brightness(0.9); /* Oscurecer ligeramente al pasar el ratón */
-    color: var(--text-color-light); /* Mantener color de texto */
-  }
-  .card-button .icon {
-    margin-right: 0.4em;
-    font-size: 1em; /* Ajustar tamaño del icono del botón */
-  }
-  
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border-top: 6px solid var(--card-accent-color, var(--primary-color));
+  min-height: 300px;
+}
+
+.test-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-content {
+  padding: 1.8rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* TÍTULO */
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-family: 'Merriweather', serif;
+  line-height: 1.3;
+}
+
+/* CATEGORÍA */
+.card-category {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--card-accent-color, var(--secondary-color));
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+/* DESCRIPCIÓN */
+.card-description {
+  font-size: 1rem;
+  color: #555;
+  flex-grow: 1;
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+}
+
+/* LÍNEA DECORATIVA */
+.card-content::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 1rem 0;
+}
+
+/* FOOTER */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* DIFICULTAD */
+.card-difficulty {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background-color: #f0f0f0;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* BOTÓN JUGAR TEST */
+.card-button {
+  background: linear-gradient(to right, #c8102e, #ffd700, #007a33);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+.card-button:hover {
+  filter: brightness(1.05);
+  transform: scale(1.03);
+}
+.card-button .icon {
+  font-size: 1.1rem;
+  margin-right: 0.3rem;
+}

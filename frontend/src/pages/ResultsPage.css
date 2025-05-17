@@ -1,108 +1,161 @@
-/* src/pages/ResultsPage.css */
+.results-page {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
 
-.results-page { /* Hereda de .card de index.css */
-    text-align: center;
-    padding: 2.5rem; /* Más padding */
-    margin-top: 2rem; /* Margen superior */
-    max-width: 700px; /* Ancho máximo para centrar mejor */
-  }
-  
-  .results-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--accent-color-green); /* Verde para éxito */
-    margin-bottom: 1.5rem;
-    font-family: var(--font-family-serif);
-  }
-  .results-header h1 .icon {
-    font-size: 1.8rem; /* Iconos más grandes */
-    vertical-align: middle;
-  }
-  
-  .score-section {
-    margin-bottom: 2.5rem;
-    padding: 1.5rem;
-    background-color: #e6f0ff; /* Azul muy claro */
-    border-radius: var(--border-radius);
-  }
-  .your-score-label {
-    font-size: 1.1rem;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-  }
-  .score-value {
-    font-size: 3.5rem; /* Puntaje bien grande */
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 0.8rem;
-    line-height: 1;
-  }
-  .score-message {
-    font-size: 1.1rem;
-    color: var(--text-color);
-    font-style: italic;
-  }
-  
-  .new-badges-section {
-    margin-bottom: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px dashed var(--border-color);
-  }
-  .new-badges-section h2 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--accent-color-yellow); /* Amarillo para insignias */
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-  .badges-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.8rem;
-  }
-  .badge-item {
-    background-color: #f8f9fa;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    font-size: 0.95rem;
-    color: var(--text-color);
-  }
-  .badge-item strong {
-    color: var(--primary-color-dark);
-  }
-  
+/* ENCABEZADO */
+.results-header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--accent-color-green);
+  margin-bottom: 1.5rem;
+  font-family: 'Merriweather', serif;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.results-header h1 .icon {
+  font-size: 2rem;
+  vertical-align: middle;
+}
+
+/* SECCIÓN DEL SCORE */
+.score-section {
+  background: linear-gradient(to right, #d4edda, #e2f0cb);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  margin-bottom: 2.5rem;
+  border-left: 5px solid var(--accent-color-green);
+}
+
+.your-score-label {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.score-value {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--primary-color);
+  margin-bottom: 0.6rem;
+  line-height: 1;
+}
+
+.score-message {
+  font-size: 1.1rem;
+  color: #444;
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+
+/* NUEVAS INSIGNIAS */
+.new-badges-section {
+  margin-bottom: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px dashed var(--border-color);
+}
+
+.new-badges-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-color-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.badges-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.badge-item {
+  background-color: #fffbea;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #ffe8a1;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+.badge-item:hover {
+  transform: scale(1.05);
+}
+.badge-item strong {
+  color: var(--primary-color-dark);
+}
+
+/* ACCIONES (botones) */
+.results-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 2.5rem;
+}
+
+.results-actions .button {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px 24px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 10px;
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+  color: #fff;
+  border: none;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.results-actions .button:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+.results-actions .button .icon {
+  font-size: 1.2rem;
+}
+.bolivian-flag {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 120px;
+  height: auto;
+  animation: flamear 3s ease-in-out infinite;
+  z-index: 1000;
+}
+
+@keyframes flamear {
+  0% { transform: rotateZ(0deg) translateX(0); }
+  25% { transform: rotateZ(1deg) translateX(1px); }
+  50% { transform: rotateZ(0deg) translateX(0); }
+  75% { transform: rotateZ(-1deg) translateX(-1px); }
+  100% { transform: rotateZ(0deg) translateX(0); }
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
   .results-actions {
-    display: flex;
-    flex-direction: column; /* Apilar botones en móvil */
-    align-items: center;
-    gap: 1rem; /* Espacio entre botones */
-    margin-top: 2rem;
+    flex-direction: row;
+    justify-content: center;
   }
   .results-actions .button {
-    width: 100%; /* Botones ocupan todo el ancho en móvil */
-    max-width: 280px; /* Ancho máximo para botones */
-    padding: 12px 20px; /* Botones más grandes */
-    font-size: 1rem;
+    width: auto;
   }
-  .results-actions .button .icon {
-    font-size: 1.1em;
-  }
-  
-  
-  @media (min-width: 768px) {
-    .results-actions {
-      flex-direction: row; /* Botones en línea en desktop */
-      justify-content: center;
-    }
-    .results-actions .button {
-      width: auto; /* Ancho automático en desktop */
-    }
-  }
-  
+}

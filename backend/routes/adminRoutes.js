@@ -15,7 +15,7 @@
 
     // --- Gestión de Tests Base (por Admin) ---
     
-    router.get('/tests', verifyAdmin, adminTestController.getAllTestsAdmin); /
+    router.get('/tests', verifyAdmin, adminTestController.getAllTestsAdmin); 
     router.post('/tests', verifyAdmin, adminTestController.createTestAdmin); 
     router.get('/tests/:id_test', verifyAdmin, adminTestController.getTestByIdAdmin); 
     router.put('/tests/:id_test', verifyAdmin, adminTestController.updateTestAdmin); 

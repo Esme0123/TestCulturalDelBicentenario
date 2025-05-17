@@ -83,20 +83,7 @@ function Navbar() {
               <li className="nav-item-button mobile-only-button"><NavLink to="/register" className="button button-register" onClick={closeMobileMenu}>Registrarse</NavLink></li>
             </>
           )}
-          {/* Botones para desktop, ocultos en el menú móvil normal */}
-           {isLoggedIn && (
-             <li className="nav-item-button desktop-only-button">
-                <button onClick={() => { logout(); closeMobileMenu(); }} className="button button-logout">
-                  <span role="img" aria-label="salir" className="icon">🚪</span> Salir
-                </button>
-            </li>
-           )}
-            {!isLoggedIn && (
-            <>
-              <li className="nav-item-button desktop-only-button"><NavLink to="/login" className="button button-secondary" onClick={closeMobileMenu}>Ingresar</NavLink></li>
-              <li className="nav-item-button desktop-only-button"><NavLink to="/register" className="button button-register" onClick={closeMobileMenu}>Registrarse</NavLink></li>
-            </>
-          )}
+          
         </ul>
       </div>
     </nav>

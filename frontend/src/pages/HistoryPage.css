@@ -1,80 +1,120 @@
-/* src/pages/HistoryPage.css */
-
 .history-page {
-  /* .container y .fade-in ya aplican estilos base */
+  background-color: #fffdf8;
 }
 
-/* .page-header ya está definido, se puede reutilizar o hacer global */
-
+/* CONTENEDOR TABLA */
 .history-table-container {
-  padding: 0; /* La card ya tiene padding, quitamos el extra para la tabla */
-  overflow-x: auto; /* Para que la tabla sea responsive si es muy ancha */
+  padding: 0;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 }
 
+/* TABLA GENERAL */
 .history-table {
   width: 100%;
   border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
 }
 
 .history-table th,
 .history-table td {
-  padding: 0.8rem 1rem;
+  padding: 1rem;
   text-align: left;
   border-bottom: 1px solid var(--border-color);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   vertical-align: middle;
 }
+
+/* ENCABEZADOS */
 .history-table thead th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: #495057;
+  background-color: #fef8e7;
+  font-weight: 700;
+  color: var(--primary-color);
   font-size: 0.8rem;
   text-transform: uppercase;
-}
-.history-table tbody tr:last-child td {
-  border-bottom: none;
-}
-.history-table tbody tr:hover {
-  background-color: #f1f3f5;
+  letter-spacing: 0.5px;
 }
 
+/* HOVER FILAS */
+.history-table tbody tr:hover {
+  background-color: #fff8f0;
+}
+
+/* CELDAS ESPECIALES */
 .history-table .time {
   display: block;
-  font-size: 0.8em;
+  font-size: 0.85em;
   color: var(--secondary-color);
 }
+
 .history-table .score {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary-color);
-}
-.history-table .actions-cell {
-  text-align: right; /* Alinear botón a la derecha */
-  white-space: nowrap;
-}
-.history-table .button-small {
-  padding: 6px 12px;
-  font-size: 0.85rem;
+  background-color: rgba(200, 16, 46, 0.05);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
 }
 
-.no-history-message { /* Hereda de .card */
+.history-table .actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.history-table .button-small {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: linear-gradient(to right, #c8102e, #007a33);
+  color: #fff;
+  border: none;
+  transition: all 0.2s ease;
+}
+.history-table .button-small:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+/* MENSAJE CUANDO NO HAY HISTORIAL */
+.no-history-message {
   text-align: center;
-  padding: 2.5rem;
+  padding: 3rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 .no-history-message h2 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: var(--primary-color-dark);
   margin-bottom: 1rem;
+  font-family: 'Merriweather', serif;
 }
 .no-history-message p {
   font-size: 1.1rem;
   color: var(--secondary-color);
   margin-bottom: 1.5rem;
 }
-.no-history-message .button-primary .icon {
+.no-history-message .button-primary {
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+  color: #fff;
+  border: none;
+  transition: all 0.2s ease;
+}
+.no-history-message .button-primary:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+.no-history-message .icon {
   margin-right: 0.5rem;
 }
 
-/* Responsive para la tabla */
+/* RESPONSIVE: VISTA MÓVIL */
 @media (max-width: 768px) {
   .history-table thead {
     display: none;
@@ -83,13 +123,14 @@
     display: block;
     margin-bottom: 1rem;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
   }
   .history-table td {
     display: block;
     text-align: right;
-    padding-left: 45%; /* Espacio para el label */
+    padding-left: 45%;
     position: relative;
     border-bottom: 1px solid #f1f3f5;
   }
@@ -97,22 +138,22 @@
     border-bottom: none;
   }
   .history-table td::before {
-    content: attr(data-label); /* Usar data-label como cabecera de fila */
+    content: attr(data-label);
     position: absolute;
     left: 1rem;
-    width: calc(45% - 1.5rem); /* Ancho del label */
+    width: calc(45% - 1.5rem);
     padding-right: 0.5rem;
     font-weight: 600;
     text-align: left;
     color: var(--secondary-color);
-    font-size: 0.8rem; /* Label más pequeño */
+    font-size: 0.8rem;
     text-transform: uppercase;
   }
   .history-table .actions-cell {
-    text-align: center; /* Centrar botón en móvil */
-    padding-left: 1rem; /* Reset padding para acciones */
+    text-align: center;
+    padding-left: 1rem;
   }
-  .history-table .actions-cell .button {
+  .history-table .button-small {
     width: 100%;
     margin-top: 0.5rem;
   }

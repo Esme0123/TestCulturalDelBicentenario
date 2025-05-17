@@ -59,7 +59,7 @@ exports.getPreguntasParaTest = async (req, res) => {
             if (row.id_respuesta && !preguntasMap.get(row.id_pregunta).respuestas.some(r => r.id_respuesta === row.id_respuesta)) {
                 preguntasMap.get(row.id_pregunta).respuestas.push({
                     id_respuesta: row.id_respuesta,
-                    texto: row.textoRespuesta,
+                    texto: row.texto,
                 });
             }
              // Añadir lectura/video si existe y no es repetido

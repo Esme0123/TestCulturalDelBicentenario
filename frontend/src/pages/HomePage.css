@@ -1,183 +1,180 @@
-/* src/pages/HomePage.css */
-
 .homepage-container {
-    /* Sin padding aquí, el container interno lo maneja */
-  }
-  
-  .hero-section {
-    background: linear-gradient(rgba(0, 86, 179, 0.7), rgba(0, 64, 133, 0.85)), url('https://placehold.co/1200x500/003366/FFFFFF?text=Fondo+Bicentenario+Bolivia&font=roboto'); /* Placeholder - Reemplazar con imagen real */
-    background-size: cover;
-    background-position: center;
-    color: var(--text-color-light);
-    padding: 4rem 0; /* Más padding vertical */
-    text-align: center;
-    position: relative;
-    border-bottom: 5px solid var(--accent-color-yellow); /* Acento amarillo */
-  }
-  /* .hero-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-  }
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 51, 102, 0.65); // Overlay azul oscuro
-    z-index: -1;
-  } */
-  
-  .hero-content {
-    position: relative; /* Para que esté sobre el overlay */
-    z-index: 1;
-  }
-  
-  .hero-title {
-    font-size: 2.8rem; /* Tamaño de título principal */
-    font-weight: 700;
-    margin-bottom: 1rem;
-    font-family: var(--font-family-serif);
-    line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-  }
-  
-  .hero-subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 2.5rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
-    opacity: 0.9;
-  }
-  
+  background-color: #fefcf9;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ---------------- HERO ---------------- */
+.hero-section {
+  background: 
+    url('/backgrounds/bolivia5.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  border-bottom: 5px solid var(--accent-color-yellow);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-family: 'Merriweather', serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  line-height: 1.3;
+}
+
+.hero-subtitle {
+  font-size: 1.35rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.95;
+}
+
+/* CTA Botones */
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-cta .button {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  min-width: 220px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hero-cta .button-primary {
+  background: linear-gradient(to right, #ffd700, #f6c700);
+  color: #1a1a1a;
+  border: none;
+}
+.hero-cta .button-primary:hover {
+  filter: brightness(0.95);
+  transform: scale(1.03);
+}
+
+.hero-cta .button-secondary {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.hero-cta .button-secondary:hover {
+  background-color: #fff;
+  color: var(--primary-color);
+}
+
+/* ---------------- FEATURES ---------------- */
+.features-section {
+  padding: 4rem 1rem;
+  background-color: #fff;
+}
+
+.section-title {
+  font-family: 'Merriweather', serif;
+  font-size: 2.4rem;
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin: 0.8rem auto 0;
+  background: linear-gradient(to right, #c8102e, #ffd700, #007a33);
+  border-radius: 6px;
+}
+
+/* Grid responsiva */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature-item {
+  background-color: #fefefe;
+  padding: 2rem 1.5rem;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+.feature-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+.feature-item:nth-child(1) .feature-icon { color: #c8102e; }
+.feature-item:nth-child(2) .feature-icon { color: #ffd700; }
+.feature-item:nth-child(3) .feature-icon { color: #007a33; }
+.feature-item:nth-child(4) .feature-icon { color: #1c1c1c; }
+
+.feature-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.feature-item p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ---------------- WELCOME BACK ---------------- */
+.welcome-back-section {
+  background: #f0f8ff;
+  border-top: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.welcome-back-section .section-title {
+  color: #007a33;
+  font-weight: 700;
+}
+.welcome-back-section p {
+  font-size: 1.1rem;
+  color: #444;
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (min-width: 768px) {
   .hero-cta {
-    display: flex;
-    flex-direction: column; /* Apilados en móvil */
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    gap: 1rem; /* Espacio entre botones */
   }
-  
-  .hero-cta .button {
-    font-size: 1.1rem; /* Botones CTA más grandes */
-    padding: 12px 28px;
-    min-width: 220px; /* Ancho mínimo para botones CTA */
-  }
-  .hero-cta .button-primary {
-    background-color: var(--accent-color-yellow); /* Amarillo para CTA primario */
-    color: #333; /* Texto oscuro para contraste con amarillo */
-    border: none;
-  }
-  .hero-cta .button-primary:hover {
-    background-color: #e0ac00;
-  }
-  .hero-cta .button-secondary {
-    background-color: transparent;
-    color: var(--text-color-light);
-    border: 2px solid var(--text-color-light);
-  }
-  .hero-cta .button-secondary:hover {
-    background-color: var(--text-color-light);
-    color: var(--primary-color);
-  }
-  
-  /* Sección de Características */
-  .features-section {
-    padding: 3.5rem 0;
-    background-color: var(--surface-color); /* Fondo blanco para esta sección */
-  }
-  
-  .section-title {
-    text-align: center;
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--primary-color-dark);
-    margin-bottom: 2.5rem;
-    font-family: var(--font-family-serif);
-  }
-  .section-title::after { /* Pequeño subrayado decorativo */
-    content: '';
-    display: block;
-    width: 80px;
-    height: 3px;
-    background-color: var(--accent-color-red); /* Acento rojo */
-    margin: 0.5rem auto 0;
-  }
-  
-  
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
-    gap: 2rem; /* Espacio entre items */
-  }
-  
-  .feature-item {
-    background-color: var(--background-color); /* Fondo ligeramente diferente para items */
-    padding: 2rem 1.5rem;
-    border-radius: var(--border-radius);
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  }
-  .feature-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  }
-  
-  .feature-icon {
-    font-size: 2.8rem; /* Iconos grandes */
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-    /* Ejemplo de colores de acento para iconos específicos */
-  }
-  .feature-item:nth-child(1) .feature-icon { color: var(--accent-color-red); }
-  .feature-item:nth-child(2) .feature-icon { color: var(--accent-color-yellow); }
-  .feature-item:nth-child(3) .feature-icon { color: var(--accent-color-green); }
-  .feature-item:nth-child(4) .feature-icon { color: var(--primary-color); }
-  
-  
-  .feature-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.75rem;
-  }
-  
-  .feature-item p {
-    font-size: 0.95rem;
-    color: var(--secondary-color);
-    line-height: 1.6;
-  }
-  
-  /* Sección de Bienvenida */
-  .welcome-back-section {
-    padding: 2.5rem 0;
-    text-align: center;
-    background-color: #e6f0ff; /* Un azul muy claro */
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-  }
-  .welcome-back-section .section-title {
-    color: var(--primary-color);
-  }
-  .welcome-back-section p {
-    font-size: 1.1rem;
-    color: #454545;
-    max-width: 650px;
-    margin: 0 auto 1.5rem auto;
-  }
-  
-  /* Adaptación para móviles */
-  @media (min-width: 768px) {
-    .hero-cta {
-      flex-direction: row; /* Botones en línea en pantallas más grandes */
-    }
-  }
-  
+}
