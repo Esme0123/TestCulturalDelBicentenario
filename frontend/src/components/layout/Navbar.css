@@ -1,0 +1,174 @@
+/* Paleta conmemorativa del Bicentenario */
+:root {
+  --primary-color: #C8102E; /* Rojo bandera */
+  --secondary-color: #FFD700; /* Amarillo dorado */
+  --tertiary-color: #007A33; /* Verde bandera */
+  --neutral-bg: #F5F3EF;     /* Fondo cálido neutro */
+  --text-color: #1C1C1C;
+  --text-light: #fff;
+  --border-color: #DADADA;
+  --hover-dark: #8B0000;
+  --border-radius: 12px;
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --font-title: 'Merriweather', serif;
+  --font-body: 'Poppins', sans-serif;
+}
+
+/* Navbar principal */
+.navbar {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--tertiary-color));
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-soft);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  font-family: var(--font-body);
+}
+
+/* Contenedor interior */
+.navbar-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Marca del sitio */
+.navbar-brand {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.7));
+}
+
+/* Navegación principal */
+.navbar-nav {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Enlaces */
+.nav-link {
+  color: var(--text-light);
+  font-weight: 500;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background: var(--text-light);
+  bottom: -4px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: #fdfdfd;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.nav-link.active {
+  font-weight: 700;
+}
+
+/* Enlace especial: Admin */
+.nav-link.admin-link {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+/* Botones */
+.navbar .button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.button-logout {
+  background: var(--primary-color);
+  color: var(--text-light);
+}
+.button-logout:hover {
+  background: var(--hover-dark);
+  transform: scale(1.05);
+}
+
+.button-register {
+  background: var(--tertiary-color);
+  color: var(--text-light);
+}
+.button-register:hover {
+  background: #005e27;
+  transform: scale(1.05);
+}
+
+/* Menú hamburguesa */
+.navbar-toggler {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  color: var(--text-light);
+  border: none;
+  cursor: pointer;
+}
+
+/* Modo responsive */
+@media (max-width: 768px) {
+  .navbar-nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--neutral-bg);
+    padding: 1rem 0;
+    box-shadow: var(--shadow-soft);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+  }
+
+  .navbar-nav.open {
+    display: flex;
+  }
+
+  .navbar-nav li {
+    text-align: center;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    color: var(--primary-color);
+    padding: 1rem;
+    font-weight: 600;
+  }
+
+  .navbar-toggler {
+    display: block;
+  }
+}

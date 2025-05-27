@@ -1,0 +1,180 @@
+.form-container-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #f9f4ed 0%, #fff 100%);
+  background-image: url('/backgrounds/bolivia4.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* CONTENEDOR */
+.form-container {
+  width: 100%;
+  max-width: 540px;
+  padding: 2.8rem 2.2rem;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-top: 6px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+/* TÍTULO */
+.form-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.2rem;
+  color: var(--primary-color);
+  font-family: 'Merriweather', serif;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* CAMPOS */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #fdfdfd;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #aab8c2;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(200, 16, 46, 0.2);
+}
+
+/* TEXTAREA */
+.form-textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* ERRORES */
+.input-error {
+  border-color: var(--accent-color-red);
+}
+.input-error:focus {
+  box-shadow: 0 0 0 0.2rem rgba(200, 16, 46, 0.2);
+}
+.form-error {
+  color: var(--accent-color-red);
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+/* FOOTER ENLACE */
+.form-footer-link {
+  margin-top: 2rem;
+  font-size: 0.92rem;
+  color: var(--secondary-color);
+  text-align: center;
+}
+.form-footer-link a {
+  font-weight: 600;
+  color: var(--primary-color);
+  transition: color 0.2s ease;
+}
+.form-footer-link a:hover {
+  color: var(--accent-color-red);
+}
+
+/* BOTONES */
+.button-primary {
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  padding: 0.85rem 1.5rem;
+  transition: all 0.2s ease;
+}
+.button-primary:hover {
+  filter: brightness(0.95);
+  transform: scale(1.02);
+}
+
+.button-primary:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
+
+.button-secondary {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.button-secondary:hover {
+  background-color: #d3a700;
+}
+
+.button-danger {
+  background-color: var(--accent-color-red);
+  color: #fff;
+  border: none;
+}
+.button-danger:hover {
+  background-color: #a4161a;
+}
+
+/* BOTÓN FULL WIDTH */
+.button-full-width {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+}
+
+/* CHECKBOX Y RADIO */
+.form-checkbox-label,
+.form-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #444;
+  cursor: pointer;
+}
+
+.form-checkbox,
+.form-radio {
+  width: 1.1em;
+  height: 1.1em;
+  cursor: pointer;
+}

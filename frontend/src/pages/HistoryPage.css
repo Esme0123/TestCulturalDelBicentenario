@@ -1,0 +1,160 @@
+.history-page {
+  background-color: #fffdf8;
+}
+
+/* CONTENEDOR TABLA */
+.history-table-container {
+  padding: 0;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* TABLA GENERAL */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+}
+
+.history-table th,
+.history-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+/* ENCABEZADOS */
+.history-table thead th {
+  background-color: #fef8e7;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* HOVER FILAS */
+.history-table tbody tr:hover {
+  background-color: #fff8f0;
+}
+
+/* CELDAS ESPECIALES */
+.history-table .time {
+  display: block;
+  font-size: 0.85em;
+  color: var(--secondary-color);
+}
+
+.history-table .score {
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: rgba(200, 16, 46, 0.05);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.history-table .actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.history-table .button-small {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: linear-gradient(to right, #c8102e, #007a33);
+  color: #fff;
+  border: none;
+  transition: all 0.2s ease;
+}
+.history-table .button-small:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+/* MENSAJE CUANDO NO HAY HISTORIAL */
+.no-history-message {
+  text-align: center;
+  padding: 3rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.no-history-message h2 {
+  font-size: 1.6rem;
+  color: var(--primary-color-dark);
+  margin-bottom: 1rem;
+  font-family: 'Merriweather', serif;
+}
+.no-history-message p {
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+}
+.no-history-message .button-primary {
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+  color: #fff;
+  border: none;
+  transition: all 0.2s ease;
+}
+.no-history-message .button-primary:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+.no-history-message .icon {
+  margin-right: 0.5rem;
+}
+
+/* RESPONSIVE: VISTA MÓVIL */
+@media (max-width: 768px) {
+  .history-table thead {
+    display: none;
+  }
+  .history-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  .history-table td {
+    display: block;
+    text-align: right;
+    padding-left: 45%;
+    position: relative;
+    border-bottom: 1px solid #f1f3f5;
+  }
+  .history-table td:last-child {
+    border-bottom: none;
+  }
+  .history-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    width: calc(45% - 1.5rem);
+    padding-right: 0.5rem;
+    font-weight: 600;
+    text-align: left;
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .history-table .actions-cell {
+    text-align: center;
+    padding-left: 1rem;
+  }
+  .history-table .button-small {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
