@@ -77,12 +77,12 @@ function ProfilePage() {
                   <div
                     className="progress-bar"
                     style={{ width: `${stat.porcentaje_aciertos || 0}%` }}
-                    title={`${(stat.porcentaje_aciertos || 0).toFixed(1)}%`}
+                    title={`${(Number(stat.porcentaje_aciertos) || 0).toFixed(1)}%`}
                   >
-                    {(stat.porcentaje_aciertos || 0).toFixed(1)}%
+                    {(Number(stat.porcentaje_aciertos) || 0).toFixed(1)}%
                   </div>
                 </div>
-                <span className="stat-details">({stat.respuestas_correctas} / {stat.preguntas_totales} correctas)</span>
+                <span className="stat-details">({Number(stat.respuestas_correctas)} / {Number(stat.preguntas_totales)} correctas)</span>
               </li>
             ))}
           </ul>

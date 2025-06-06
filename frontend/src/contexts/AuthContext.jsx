@@ -17,25 +17,22 @@ export const AuthProvider = ({ children }) => {
     } else {
       delete api.defaults.headers.common['Authorization'];
       localStorage.removeItem('authToken');
-      localStorage.removeItem('authUser'); // También limpiar datos de usuario
-      setUser(null); // Asegurarse que user es null si no hay token
+      localStorage.removeItem('authUser'); 
+      setUser(null); 
     }
   }, [token]);
 
   // Función para verificar el token al cargar la app
   const verifyAuthStatus = useCallback(async () => {
     setLoading(true);
-    const currentToken = localStorage.getItem('authToken'); // Re-leer por si acaso
+    const currentToken = localStorage.getItem('authToken'); 
     if (!currentToken) {
       setUser(null);
-      setToken(null); // Asegurar que el estado del token también esté limpio
+      setToken(null); 
       setLoading(false);
       return;
     }
 
-    // Si hay token, intentar obtener los datos del usuario del localStorage primero
-    // Esto evita una llamada a API si los datos ya están y el token es válido.
-    // La validación real del token ocurrirá en la primera llamada API protegida.
     try {
       const storedUser = localStorage.getItem('authUser');
       if (storedUser) {
