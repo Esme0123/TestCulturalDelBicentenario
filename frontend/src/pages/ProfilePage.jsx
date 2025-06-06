@@ -77,12 +77,12 @@ function ProfilePage() {
                   <div
                     className="progress-bar"
                     style={{ width: `${stat.porcentaje_aciertos || 0}%` }}
-                    title={`${(stat.porcentaje_aciertos || 0).toFixed(1)}%`}
+                    title={`${(Number(stat.porcentaje_aciertos) || 0).toFixed(1)}%`}
                   >
-                    {(stat.porcentaje_aciertos || 0).toFixed(1)}%
+                    {(Number(stat.porcentaje_aciertos) || 0).toFixed(1)}%
                   </div>
                 </div>
-                <span className="stat-details">({stat.respuestas_correctas} / {stat.preguntas_totales} correctas)</span>
+                <span className="stat-details">({Number(stat.respuestas_correctas)} / {Number(stat.preguntas_totales)} correctas)</span>
               </li>
             ))}
           </ul>
@@ -97,7 +97,7 @@ function ProfilePage() {
           <div className="insignias-grid">
             {misInsignias.map(insignia => (
               <div key={insignia.id_insignia} className="insignia-item" title={`${insignia.nombre}: ${insignia.descripcion} (Obtenida: ${new Date(insignia.fecha_obtenida).toLocaleDateString()})`}>
-                {/* Idealmente, aquí iría una imagen o un icono SVG para la insignia */}
+                {/* icono para la insignia */}
                 {insignia.icono_url ? (
                   <img src={insignia.icono_url} alt={insignia.nombre} className="insignia-icon-img" onError={(e) => e.target.style.display='none'}/>
                 ) : (

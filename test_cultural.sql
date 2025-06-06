@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2025 a las 05:02:33
+-- Tiempo de generación: 06-06-2025 a las 20:24:27
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -799,8 +799,8 @@ INSERT INTO `respuestas` (`id_respuesta`, `texto`) VALUES
 
 CREATE TABLE `respuestasusuario` (
   `id_resu` bigint(20) UNSIGNED NOT NULL,
-  `id_respuesta` int(11) DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL,
+  `id_respuesta` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_user` bigint(20) UNSIGNED DEFAULT NULL,
   `id_historial` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -1126,7 +1126,9 @@ ALTER TABLE `respuestas`
 --
 ALTER TABLE `respuestasusuario`
   ADD PRIMARY KEY (`id_resu`),
-  ADD KEY `fk_respuestasusuario_historial` (`id_historial`);
+  ADD KEY `fk_respuestasusuario_historial` (`id_historial`),
+  ADD KEY `fk_res_usua` (`id_respuesta`),
+  ADD KEY `fk_user_resp` (`id_user`);
 
 --
 -- Indices de la tabla `resultados`
@@ -1357,7 +1359,9 @@ ALTER TABLE `respuestapreguntas`
 -- Filtros para la tabla `respuestasusuario`
 --
 ALTER TABLE `respuestasusuario`
-  ADD CONSTRAINT `fk_respuestasusuario_historial` FOREIGN KEY (`id_historial`) REFERENCES `historial_tests` (`id_historial`);
+  ADD CONSTRAINT `fk_res_usua` FOREIGN KEY (`id_respuesta`) REFERENCES `respuestas` (`id_respuesta`),
+  ADD CONSTRAINT `fk_respuestasusuario_historial` FOREIGN KEY (`id_historial`) REFERENCES `historial_tests` (`id_historial`),
+  ADD CONSTRAINT `fk_user_resp` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`);
 
 --
 -- Filtros para la tabla `resultado_pregunta`
