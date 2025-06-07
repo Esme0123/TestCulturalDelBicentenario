@@ -65,7 +65,7 @@ function HistoryPage() {
                   <td data-label="Categoría">{item.categoria_nombre || 'N/A'}</td>
                   <td data-label="Dificultad">{item.dificultad_nombre || 'N/A'}</td>
                   <td data-label="Fecha">{new Date(item.fecha).toLocaleDateString()} <span className="time">{new Date(item.fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></td>
-                  <td data-label="Puntaje" className="score">{item.puntaje} / {item.total_preguntas * 10}</td>
+                  <td data-label="Puntaje" className="score">{item.puntaje} / {item.total}</td>
                   <td data-label="Duración">{item.duracion_segundos ? `${Math.floor(item.duracion_segundos / 60)}m ${item.duracion_segundos % 60}s` : 'N/A'}</td>
                   <td data-label="Acciones" className="actions-cell">
                     <Link to={`/revision/${item.id_historial}`} className="button button-secondary button-small">

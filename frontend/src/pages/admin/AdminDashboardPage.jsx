@@ -1,37 +1,31 @@
 // src/pages/admin/AdminDashboardPage.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import api from '../../services/api'; // Descomentar si necesitas cargar datos para el dashboard
+import api from '../../services/api'; 
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import './AdminStyles.css'; // Estilos generales para páginas de admin
+import Notification from '../../components/ui/Notification'; 
+import './AdminStyles.css';
 
 function AdminDashboardPage() {
   const [stats, setStats] = useState({ users: 0, tests: 0, questions: 0 });
-  const [isLoading, setIsLoading] = useState(false); // Cambiar a true si cargas datos
+  const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState({ message: '', type: '' });
 
-  // useEffect(() => {
-  //   const fetchStats = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       // Ejemplo: const usersRes = await api.get('/admin/stats/users');
-  //       // const testsRes = await api.get('/admin/stats/tests');
-  //       // const questionsRes = await api.get('/admin/stats/questions');
-  //       // setStats({
-  //       //   users: usersRes.data.count,
-  //       //   tests: testsRes.data.count,
-  //       //   questions: questionsRes.data.count,
-  //       // });
-  //       // Simulación de datos:
-  //       setStats({ users: 150, tests: 25, questions: 300 });
-  //     } catch (error) {
-  //       console.error("Error cargando estadísticas del dashboard:", error);
-  //       // Manejar error, quizás con una notificación
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchStats();
-  // }, []);
+  useEffect(() => {
+    const fetchStats = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.get('/admin/stats');
+        setStats(response.data);
+      } catch (error) {
+        console.error("Error cargando estadísticas del dashboard:", error);
+        setNotification({ message: 'No se pudieron cargar las estadísticas.', type: 'error' });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchStats();
+  }, []); // El array vacío asegura que se ejecute solo una vez al cargar
 
   if (isLoading) {
     return <div className="page-loading-container"><LoadingSpinner text="Cargando Dashboard..." /></div>;
@@ -39,6 +33,7 @@ function AdminDashboardPage() {
 
   return (
     <div className="admin-page-container">
+      {notification.message && <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: ''})} />}
       <header className="admin-page-header">
         <h1 className="admin-page-title">Dashboard de Administración</h1>
       </header>
@@ -46,20 +41,19 @@ function AdminDashboardPage() {
       <section className="dashboard-summary">
         <div className="summary-card card">
           <h3><span role="img" aria-label="usuarios" className="icon">👥</span> Usuarios Registrados</h3>
-          <p className="summary-value">{stats.users || 'N/A'}</p>
+          <p className="summary-value">{stats.users}</p>
           <Link to="/admin/usuarios" className="button button-secondary button-small">Gestionar Usuarios</Link>
         </div>
         <div className="summary-card card">
           <h3><span role="img" aria-label="tests" className="icon">📝</span> Tests Creados</h3>
-          <p className="summary-value">{stats.tests || 'N/A'}</p>
+          <p className="summary-value">{stats.tests}</p>
           <Link to="/admin/tests" className="button button-secondary button-small">Gestionar Tests</Link>
         </div>
         <div className="summary-card card">
           <h3><span role="img" aria-label="preguntas" className="icon">❓</span> Preguntas en el Banco</h3>
-          <p className="summary-value">{stats.questions || 'N/A'}</p>
+          <p className="summary-value">{stats.questions}</p>
           <Link to="/admin/preguntas" className="button button-secondary button-small">Gestionar Preguntas</Link>
         </div>
-        {/* Añadir más tarjetas de resumen si es necesario */}
       </section>
 
       <section className="quick-actions card">
@@ -67,7 +61,6 @@ function AdminDashboardPage() {
         <ul>
           <li><Link to="/admin/preguntas/nueva" className="button button-link">Añadir Nueva Pregunta</Link></li>
           <li><Link to="/admin/tests/nuevo" className="button button-link">Crear Nuevo Test Base</Link></li>
-          
         </ul>
       </section>
     </div>

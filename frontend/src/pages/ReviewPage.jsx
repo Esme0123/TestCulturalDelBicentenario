@@ -19,10 +19,7 @@ function ReviewPage() {
     setIsLoading(true);
     handleNotificationClose();
     try {
-      // Primero, obtener información general del historial (nombre del test, puntaje, etc.)
-      // Asumimos que el endpoint de historial individual puede darnos esto.
-      // O podríamos necesitar hacer dos llamadas.
-      const historialRes = await api.get(`/historial`); // O un endpoint específico si existe
+      const historialRes = await api.get(`/historial`); 
       const currentHistorial = historialRes.data.find(h => h.id_historial === parseInt(id_historial));
       
       if (!currentHistorial) {

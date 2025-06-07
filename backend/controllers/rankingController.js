@@ -14,8 +14,6 @@ exports.getRankings = async(req, res) => {
         // Obtener el primer y último día de este mes
         dateCondition = 'WHERE ht.fecha >= DATE_FORMAT(CURDATE(), \'%Y-%m-01\') AND ht.fecha < DATE_ADD(DATE_FORMAT(CURDATE(), \'%Y-%m-01\'), INTERVAL 1 MONTH)';
     }
-    // Consulta para obtener los mejores puntajes, agrupando por usuario y tomando el máximo
-    // Une con usuarios para obtener el nombre
     const sql = `
         SELECT
             u.id_user,
@@ -29,9 +27,6 @@ exports.getRankings = async(req, res) => {
         ORDER BY max_puntaje DESC
         LIMIT ?;
     `;
-
-    const limitValue = parseInt(limit, 10) || 10; 
-    params.push(limitValue);
 
     try {
         const limitValue = parseInt(limit, 10) || 10;

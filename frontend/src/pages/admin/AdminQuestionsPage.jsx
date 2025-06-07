@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../services/api';
-// import { PlusIcon, PencilIcon, TrashIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import './AdminStyles.css'; 
 import '../FormStyles.css';
 
@@ -8,12 +7,12 @@ import '../FormStyles.css';
 const Modal = ({ isOpen, onClose, title, children }) => {
     if (!isOpen) return null;
     return (
-        <div className="modal-overlay"> {/* Clase para el fondo oscuro */}
-            <div className="modal-content"> {/* Clase para el contenedor del modal */}
+        <div className="modal-overlay"> {}
+            <div className="modal-content"> {}
                 <div className="modal-header">
                     <h3 className="modal-title">{title}</h3>
                     <button onClick={onClose} className="modal-close-button">
-                        {/* Reemplazar icono XMarkIcon */}
+                        {}
                         &times;
                     </button>
                 </div>

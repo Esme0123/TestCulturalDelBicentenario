@@ -181,6 +181,6 @@ async function getPreguntasYCorrectas(id_test, connection) {
         return preguntasMap;
     } catch (error) {
         console.error("Error al obtener preguntas y correctas:", error);
-        throw error; // Propagar el error para el rollback
+        throw error; 
     }
 }

@@ -1,12 +1,14 @@
 // src/pages/DesafiosPage.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { io } from "socket.io-client"; 
 import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import Notification from '../components/ui/Notification';
 import './DesafiosPage.css'; // CSS específico
-
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
+const socket = io(SOCKET_URL, { autoConnect: false });
 // Modal simple para crear desafío (puedes moverlo a ui/Modal.jsx si lo reutilizas mucho)
 const CreateDesafioModal = ({ isOpen, onClose, tests, usuarios, onSubmit, isLoading }) => {
     const [idTestBase, setIdTestBase] = useState('');
@@ -77,147 +79,190 @@ function DesafiosPage() {
   const [testsParaDesafio, setTestsParaDesafio] = useState([]); // Tests públicos para usar de base
   const [usuariosParaRetar, setUsuariosParaRetar] = useState([]); // Lista de usuarios
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Para creación/respuesta de desafío
   const [notification, setNotification] = useState({ message: '', type: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
-  const handleNotificationClose = () => setNotification({ message: '', type: '' });
+  const fetchDesafios = useCallback(async () => {
+        if (!user) return;
+        setIsLoading(true);
+        try {
+            const [recibidosRes, enviadosRes] = await Promise.all([
+                api.get('/desafios/recibidos'),
+                api.get('/desafios/enviados')
+            ]);
+            setDesafiosRecibidos(recibidosRes.data);
+            setMisDesafiosCreados(enviadosRes.data);
+        } catch (err) {
+            setError('No se pudieron cargar los desafíos.');
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [user]);
 
-  const fetchData = useCallback(async () => {
-  setIsLoading(true);
-  handleNotificationClose();
-  try {
-    const [creadosRes, recibidosRes, testsRes, usersRes] = await Promise.all([
-      api.get('/desafios/creados'),      // Desafíos creados por usuario
-      api.get('/desafios/pendientes'),   // Desafíos pendientes recibidos
-      api.get('/tests?es_publico=true'), // Tests públicos para seleccionar
-      api.get('/usuarios')                // Usuarios disponibles para retar
-    ]);
-    setMisDesafiosCreados(creadosRes.data || []);
-    setDesafiosRecibidos(recibidosRes.data || []);
-    setTestsParaDesafio(testsRes.data || []);
-    setUsuariosParaRetar(usersRes.data || []);
-    console.log("Datos de desafíos cargados:", recibidosRes.data);
-  } catch (err) {
-    console.error("Error cargando datos de desafíos:", err);
-    setNotification({ message: 'No se pudo cargar la información de desafíos.', type: 'error' });
-  } finally {
-    setIsLoading(false);
-  }
-}, []);
+    useEffect(() => {
+        fetchDesafios();
+    }, [fetchDesafios]);
 
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    // --- 2. EFECTO PARA ESCUCHAR EVENTOS DE SOCKET ---
+    useEffect(() => {
+        // Solo nos conectamos si hay un usuario logueado.
+        if (!user?.id) return;
 
-  const handleCrearDesafio = async (desafioData) => {
-    setIsSubmitting(true);
-    handleNotificationClose();
-    try {
-        await api.post('/desafios/crear', {
-            id_test_base: desafioData.id_test_base, // Cambiado de id_test a id_test_base
-            id_usuario_retado: desafioData.id_usuario_retado
-        });
-        setNotification({ message: '¡Desafío enviado con éxito!', type: 'success'});
-        setIsModalOpen(false);
-        fetchData(); // Recargar datos
-    } catch (err) {
-        console.error("Error creando desafío:", err);
-        setNotification({ message: err.response?.data?.message || 'Error al enviar el desafío.', type: 'error'});
-    } finally {
-        setIsSubmitting(false);
+        socket.connect();
+        console.log("Socket intentando conectar...");
+
+        // Definimos la función que manejará el evento
+        const handleDesafioActualizado = (data) => {
+            const { id_desafio, nuevo_estado, id_creador } = data;
+            console.log(`Evento de socket recibido:`, data);
+            if (nuevo_estado === 'EN PROGRESO' && id_creador === user.id) {
+                // ¡Aceptaron mi reto! Muestro notificación y redirijo.
+                setNotification({ message: '¡Tu desafío fue aceptado! Entrando a la partida...', type: 'success' });
+                setTimeout(() => navigate(`/challenge/${id_desafio}`), 1500);
+            } else {
+                fetchDesafios();
+            }
+        };
+
+        // Nos suscribimos al evento del servidor.
+        socket.on('desafio_actualizado', handleDesafioActualizado);
+
+        return () => {
+            console.log("Socket desconectando...");
+            socket.off('desafio_actualizado', handleDesafioActualizado);
+            socket.disconnect();
+        };
+    }, [user, navigate, fetchDesafios]);
+
+
+    // --- Handlers de Acciones ---
+    const handleAcceptDesafio = async (desafioId) => {
+        setNotification({ message: '', type: '' });
+        try {
+            // AHORA LLAMA A LA RUTA CORRECTA CON PUT
+            await api.put(`/desafios/${desafioId}/aceptar`);
+            setNotification({ message: '¡Desafío aceptado! Redirigiendo a la partida...', type: 'success' });
+
+            setTimeout(() => {
+                navigate(`/challenge/${desafioId}`);
+            }, 1500);
+
+        } catch (err) {
+            console.error("Error al aceptar el desafío:", err);
+            setNotification({ message: err.response?.data?.message || 'Error al aceptar el desafío.', type: 'error' });
+        }
+    };
+
+    const handleRejectDesafio = async (desafioId) => {
+        try {
+            await api.put(`/desafios/${desafioId}/rechazar`);
+            setNotification({ message: 'Desafío rechazado.', type: 'info' });
+            fetchDesafios(); // Recarga para que desaparezca de la lista
+        } catch (err) {
+            console.error("Error al rechazar el desafío:", err);
+            setNotification({ message: 'Error al rechazar el desafío.', type: 'error' });
+        }
+    };
+    
+    // El resto del componente (handleOpenCreateModal, JSX de renderizado) se mantiene igual...
+    const handleOpenCreateModal = async () => {
+        try {
+            // Nota: La ruta /usuarios debe existir en alguna parte de tus rutas de backend
+            const [testsRes, usersRes] = await Promise.all([
+                api.get('/tests?basic=true'),
+                api.get('/usuarios')
+            ]);
+            setTestsParaDesafio(testsRes.data);
+            setUsuariosParaRetar(usersRes.data.filter(u => u.id_usuario !== user.id));
+            setIsModalOpen(true);
+        } catch (err) {
+            console.error("Error preparando modal:", err);
+            setNotification({ message: 'No se pudo cargar la información para crear desafíos.', type: 'error' });
+        }
+    };
+    
+    const handleCreateDesafio = async (data) => {
+        try {
+            await api.post('/desafios', data);
+            setNotification({ message: '¡Desafío enviado con éxito!', type: 'success'});
+            setIsModalOpen(false);
+            fetchDesafios();
+        } catch (err) {
+            console.error("Error al crear desafío:", err);
+            setNotification({ message: err.response?.data?.message || 'Error al crear el desafío.', type: 'error' });
+        }
     }
-  };
 
-  const handleResponderDesafio = async (id_desafio, aceptar) => {
-    setIsSubmitting(true);
-    handleNotificationClose();
-    try {
-        await api.post(`/desafios/${id_desafio}/responder`, { aceptar });
-        setNotification({ message: `Desafío ${aceptar ? 'aceptado' : 'rechazado'}.`, type: 'success'});
-        fetchData(); // Recargar datos
-    } catch (err) {
-        console.error("Error respondiendo al desafío:", err);
-        setNotification({ message: err.response?.data?.message || 'Error al responder al desafío.', type: 'error'});
-    } finally {
-        setIsSubmitting(false);
-    }
-  };
+    if (isLoading) return <LoadingSpinner />;
+    if (error) return <p className="error-message">{error}</p>;
 
-  if (isLoading) {
-    return <div className="page-loading-container"><LoadingSpinner size="large" text="Cargando desafíos..." /></div>;
-  }
-
-  return (
-    <div className="desafios-page container fade-in">
-      <Notification message={notification.message} type={notification.type} onClose={handleNotificationClose} />
-      <header className="page-header">
-        <h1><span role="img" aria-label="espadas cruzadas" className="icon">⚔️</span> Mis Desafíos</h1>
-        <button onClick={() => setIsModalOpen(true)} className="button button-primary create-desafio-button">
-            <span role="img" aria-label="nuevo desafío" className="icon">➕</span> Crear Nuevo Desafío
-        </button>
-      </header>
-
-      <section className="desafios-section card">
-        <h2>Desafíos Recibidos (Pendientes)</h2>
-        {desafiosRecibidos.length > 0 ? (
-          <ul className="desafios-list">
-            {desafiosRecibidos.map(d => (
-              <li key={d.id_desafio} className="desafio-item">
-                <div className="desafio-info">
-                  <p><strong>Retador:</strong> {d.creador_nombre || 'Desconocido'}</p>
-                  <p><strong>Test:</strong> {d.test_nombre || 'Test Base'}</p>
-                  <p><strong>Categoría:</strong> {d.categoria_nombre || 'N/A'}</p>
-                  <p><strong>Dificultad:</strong> {d.dificultad_nombre || 'N/A'}</p>
-                  <p><strong>Fecha:</strong> {new Date(d.fecha_inicio).toLocaleDateString()}</p>
-                </div>
-                <div className="desafio-actions">
-                  <button onClick={() => handleResponderDesafio(d.id_desafio, true)} className="button button-success button-small" disabled={isSubmitting}>Aceptar</button>
-                  <button onClick={() => handleResponderDesafio(d.id_desafio, false)} className="button button-danger button-small" disabled={isSubmitting}>Rechazar</button>
-                  {/* Si aceptado, podría cambiar a "Jugar Ahora" */}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="no-data-message">No tienes desafíos pendientes recibidos.</p>
-        )}
-      </section>
-
-      <section className="desafios-section card">
-        <h2>Mis Desafíos Enviados</h2>
-        {misDesafiosCreados.length > 0 ? (
-          <ul className="desafios-list">
-            {misDesafiosCreados.map(d => (
-              <li key={d.id_desafio} className="desafio-item">
-                <div className="desafio-info">
-                  <p><strong>Retado:</strong> {d.retado_nombre || 'Desconocido'}</p>
-                  <p><strong>Test:</strong> {d.test_nombre || 'Test Base'}</p>
-                  <p><strong>Estado:</strong> <span className={`status-badge status-${d.nombre_estado?.toLowerCase().replace(' ', '-')}`}>{d.nombre_estado || 'N/A'}</span></p>
-                  <p><strong>Fecha:</strong> {new Date(d.fecha_inicio).toLocaleDateString()}</p>
-                  {/* Podrías mostrar puntajes si el desafío está finalizado */}
-                </div>
-                {/* Acciones para desafíos enviados (ej. cancelar si está pendiente) */}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="no-data-message">No has enviado ningún desafío todavía.</p>
-        )}
-      </section>
-
-      <CreateDesafioModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        tests={testsParaDesafio}
-        usuarios={usuariosParaRetar}
-        onSubmit={handleCrearDesafio}
-        isLoading={isSubmitting}
-      />
-    </div>
-  );
+    return (
+        <div className="desafios-page">
+            {notification.message && <Notification message={notification.message} type={notification.type} />}
+            <div className="page-header">
+                <h1><span role="img" aria-label="espadas cruzadas" className="icon">⚔️</span> Mis Desafíos</h1>
+                <button onClick={handleOpenCreateModal} className="create-desafio-button">
+                  <span role="img" aria-label="nuevo desafío" className="icon">➕</span> Crear Nuevo Desafío
+                </button>
+            </div>
+            <section className="desafios-section card">
+                <h2>Desafíos Recibidos</h2>
+                {desafiosRecibidos.length > 0 ? (
+                    <ul className="desafios-list">
+                        {desafiosRecibidos.map(d => (
+                            <li key={d.id_desafio} className="desafio-item">
+                                <div className="desafio-info">
+                                    <p><strong>Retador:</strong> {d.creador_nombre || 'Desconocido'}</p>
+                                    <p><strong>Test:</strong> {d.test_nombre || 'Test Base'}</p>
+                                    <p><strong>Categoría:</strong> {d.categoria_nombre || 'N/A'}</p>
+                                    <p><strong>Dificultad:</strong> {d.dificultad_nombre || 'N/A'}</p>
+                                    <p><strong>Fecha:</strong> {new Date(d.fecha_inicio).toLocaleDateString()}</p>
+                                    <p><strong>Estado:</strong> <span className={`status-badge status-pending`}>{d.nombre_estado}</span></p>
+                                </div>
+                                <div className="desafio-actions">
+                                    <button onClick={() => handleAcceptDesafio(d.id_desafio)} className="button button-success">Aceptar</button>
+                                    <button onClick={() => handleRejectDesafio(d.id_desafio)} className="button button-danger">Rechazar</button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="no-data-message">No tienes desafíos pendientes de aceptar.</p>
+                )}
+            </section>
+            <section className="desafios-section card">
+                <h2>Mis Desafíos Enviados</h2>
+                 {misDesafiosCreados.length > 0 ? (
+                    <ul className="desafios-list">
+                        {misDesafiosCreados.map(d => (
+                            <li key={d.id_desafio} className="desafio-item">
+                                <div className="desafio-info">
+                                    <p><strong>Retado:</strong> {d.retado_nombre}</p>
+                                    <p><strong>Test:</strong> {d.test_nombre}</p>
+                                    <p><strong>Estado:</strong> <span className={`status-badge status-${d.nombre_estado?.toLowerCase().replace(' ', '-')}`}>{d.nombre_estado}</span></p>
+                                    <p><strong>Fecha:</strong> {new Date(d.fecha_inicio).toLocaleDateString()}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="no-data-message">No has enviado ningún desafío todavía.</p>
+                )}
+            </section>
+            <CreateDesafioModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                tests={testsParaDesafio}
+                usuarios={usuariosParaRetar}
+                onSubmit={handleCreateDesafio}
+            />
+        </div>
+    );
 }
 
 export default DesafiosPage;

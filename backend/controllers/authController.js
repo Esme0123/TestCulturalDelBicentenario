@@ -8,8 +8,8 @@ dotenv.config();
 exports.register = async (req, res) => {
   const { nombre, apellidoPaterno, apellidoMaterno, email, contrasena, rol = 'user' } = req.body; // Rol por defecto 'user'
   // Validaciones básicas
-  if (!nombre || !apellidoPaterno || !email || !contrasena) {
-    return res.status(400).json({ message: 'Faltan campos obligatorios (nombre, apellido paterno, email, contraseña).' });
+  if (!nombre || !apellidoPaterno || !apellidoMaterno || !email || !contrasena) {
+    return res.status(400).json({ message: 'Faltan campos obligatorios (nombre, apellido paterno, apellido materno,email, contraseña).' });
   }
   if (contrasena.length < 5) {
     return res.status(400).json({ message: 'La contraseña debe tener al menos 6 caracteres.' });
@@ -27,7 +27,7 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(contrasena, 10); // 10 es el número de rondas de salting
     // 3. Insertar usuario en la base de datos
     const insertSql = 'INSERT INTO usuarios (nombre, apellidoPaterno, apellidoMaterno, email, contrasena, rol) VALUES (?, ?, ?, ?, ?, ?)';
-    const [result] = await connection.query(insertSql, [nombre, apellidoPaterno, apellidoMaterno || null, email, hashedPassword, rol]);
+    const [result] = await connection.query(insertSql, [nombre, apellidoPaterno, apellidoMaterno, email, hashedPassword, rol]);
     if (result.affectedRows > 0) {
       res.status(201).json({ message: 'Usuario registrado correctamente.', userId: result.insertId });
     } else {

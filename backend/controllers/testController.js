@@ -1,10 +1,8 @@
 // controllers/testController.js
 const db = require('../config/db');
 
-// Crear un nuevo test (llamado desde el frontend al iniciar un test estándar o personalizado)
-// Recibe categoría y dificultad del request body
+
 exports.crearTest =async(req, res) => {
-  // Asumiendo que el usuario está autenticado y req.userId está disponible por verifyToken
   const id_user = req.userId;
   const { nombre, descripcion, id_dificultad, id_categoria, es_personalizado = false, preguntas } = req.body; // preguntas es opcional para tests personalizados
 
@@ -43,10 +41,9 @@ exports.crearTest =async(req, res) => {
   }
 };
 
-// Obtener tests disponibles (filtrados por categoría/dificultad)
-// Opción: ajustar getTestsDisponibles para incluir filtro es_publico
+
 exports.getTestsDisponibles = async(req, res) => {
-    const { id_categoria, id_dificultad, es_publico } = req.query; // Agregado es_publico
+    const { id_categoria, id_dificultad, es_publico } = req.query;
 
     let sql = `
         SELECT

@@ -122,6 +122,15 @@
   background-color: #005e27;
   transform: scale(1.03);
 }
+.button-danger{
+  background-color: rgba(255, 0, 0, 0.712);
+  color: #fff;
+  border: none;
+}
+.button-danger:hover {
+  background-color: #350101e5;
+  transform: scale(1.03);
+}
 
 @media (min-width: 768px) {
   .desafio-item {
@@ -147,6 +156,8 @@
   text-transform: capitalize;
   display: inline-block;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  color: rgba(21, 102, 62, 0.815);
+  background-color: #78f382;
 }
 
 .status-pendiente {
@@ -163,10 +174,10 @@
 }
 .status-en-curso {
   background-color: var(--primary-color);
-  color: #fff;
+  color: rgb(175, 0, 0);
 }
 .status-finalizado {
-  background-color: var(--secondary-color);
+  background-color: aqua;
   color: #333;
 }
 .status-cancelado {

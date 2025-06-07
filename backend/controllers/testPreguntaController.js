@@ -12,10 +12,10 @@ exports.asociarPreguntasAlTest = async (req, res) => {
       return res.status(400).json({ message: 'El array de preguntas debe contener IDs numéricos válidos.' });
   }
 
-  let connection; // Declarar fuera para usar en finally
+  let connection;
 
   try {
-    connection = await db.getConnection(); // Obtener conexión del pool
+    connection = await db.getConnection(); 
     await connection.beginTransaction();
 
     // 1. Verificar que el test exista
@@ -44,7 +44,7 @@ exports.asociarPreguntasAlTest = async (req, res) => {
 
     await connection.commit();
 
-    if (result.affectedRows > 0 || result.warningStatus === 0) { // warningStatus 0 si no hubo warnings (ej. por IGNORE)
+    if (result.affectedRows > 0 || result.warningStatus === 0) { 
         const message = result.affectedRows > 0
             ? `${result.affectedRows} pregunta(s) nueva(s) asociada(s) exitosamente al test ${id_test}.`
             : `Las preguntas ya estaban asociadas o no se realizaron cambios para el test ${id_test}.`;
@@ -69,7 +69,7 @@ exports.asociarPreguntasAlTest = async (req, res) => {
     console.error("Error al asociar preguntas al test:", error);
     res.status(500).json({ message: 'Error interno del servidor al asociar preguntas al test.' });
   } finally {
-    if (connection) connection.release(); // Liberar la conexión de vuelta al pool
+    if (connection) connection.release(); 
   }
 };
 

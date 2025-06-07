@@ -84,7 +84,7 @@ function RegisterPage() {
               <input type="text" name="apellidoPaterno" id="apellidoPaterno" required value={formData.apellidoPaterno} onChange={handleChange} className="form-input" disabled={isLoading} />
             </div>
             <div className="form-group">
-              <label htmlFor="apellidoMaterno" className="form-label">Apellido Materno (Opcional)</label>
+              <label htmlFor="apellidoMaterno" className="form-label">Apellido Materno</label>
               <input type="text" name="apellidoMaterno" id="apellidoMaterno" value={formData.apellidoMaterno} onChange={handleChange} className="form-input" disabled={isLoading} />
             </div>
             <div className="form-group">

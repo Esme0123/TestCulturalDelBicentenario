@@ -68,8 +68,8 @@ exports.crearDesafio = async (req, res) => {
   }
 };
 
-// Obtener desafíos pendientes del usuario logueado (donde es retado)
-exports.getDesafiosPendientes = async (req, res) => {
+// Obtener desafíos recibidos del usuario logueado (donde es retado)
+exports.getDesafiosRecibidos = async (req, res) => {
     const id_user = req.userId;
     console.log('[DEBUG] Usuario que solicita desafíos pendientes:', id_user);
     const ID_ESTADO_PENDIENTE = 1; 
@@ -97,6 +97,93 @@ exports.getDesafiosPendientes = async (req, res) => {
     } catch (error) {
         console.error("Error al obtener desafíos pendientes:", error);
         res.status(500).json({ message: 'Error interno al obtener desafíos.' });
+    }
+};
+exports.getDesafiosEnviados = async (req, res) => {
+    const id_user = req.userId;
+    try {
+        const sql = `
+            SELECT d.id_desafio, d.fecha_inicio, u_retado.nombre AS retado_nombre, t.nombre AS test_nombre, e.nombre_estado
+            FROM desafios d
+            JOIN usuarios u_retado ON d.id_usuario_retado = u_retado.id_user
+            JOIN tests t ON d.id_test_base = t.id_test
+            JOIN estados e ON d.id_estado = e.id_estado
+            WHERE d.id_usuario_creador = ?
+            ORDER BY d.fecha_inicio DESC;
+        `;
+        const [desafios] = await db.query(sql, [id_user]);
+        res.json(desafios);
+    } catch (error) {
+        console.error("Error al obtener desafíos enviados:", error);
+        res.status(500).json({ message: 'Error interno al obtener desafíos.' });
+    }
+};
+exports.aceptarDesafio = async (req, res) => {
+    const id_user = req.userId; // El usuario que está aceptando (retado)
+    const { id_desafio } = req.params;
+    const ID_ESTADO_EN_PROGRESO = 2; // O "Aceptado"
+    const ID_ESTADO_PENDIENTE = 1;
+
+    try {
+        const [result] = await db.query(
+            `UPDATE desafios SET id_estado = ? WHERE id_desafio = ? AND id_usuario_retado = ? AND id_estado = ?`,
+            [ID_ESTADO_EN_PROGRESO, id_desafio, id_user, ID_ESTADO_PENDIENTE]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Desafío no encontrado o ya respondido.' });
+        }
+
+        // --- NOTIFICACIÓN EN TIEMPO REAL ---
+        const [desafioInfo] = await db.query(
+            'SELECT id_usuario_creador FROM desafios WHERE id_desafio = ?',
+            [id_desafio]
+        );
+        if (desafioInfo.length === 0) {
+            // Este caso es improbable si la actualización anterior fue exitosa, pero es una buena práctica de seguridad.
+            console.error(`CRITICAL: Desafío ${id_desafio} aceptado pero no se pudo encontrar para notificar.`);
+            return res.json({ message: 'Desafío aceptado, pero hubo un problema al notificar.' });
+        }
+        const id_creador = desafioInfo[0].id_usuario_creador;
+        const io = req.app.get('io');
+
+        io.emit('desafio_actualizado', { 
+            id_desafio, 
+            nuevo_estado: 'EN PROGRESO',
+            id_creador: id_creador
+        });
+        
+        res.json({ message: `Desafío aceptado con éxito.` });
+    } catch (error) {
+        console.error("Error al aceptar desafío:", error);
+        res.status(500).json({ message: 'Error interno al aceptar el desafío.' });
+    }
+};
+
+exports.rechazarDesafio = async (req, res) => {
+    const id_user = req.userId;
+    const { id_desafio } = req.params;
+    const ID_ESTADO_RECHAZADO = 3;
+    const ID_ESTADO_PENDIENTE = 1;
+
+    try {
+        const [result] = await db.query(
+            `UPDATE desafios SET id_estado = ? WHERE id_desafio = ? AND id_usuario_retado = ? AND id_estado = ?`,
+            [ID_ESTADO_RECHAZADO, id_desafio, id_user, ID_ESTADO_PENDIENTE]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Desafío no encontrado o ya respondido.' });
+        }
+        
+        // También notificamos el rechazo
+        const io = req.app.get('io');
+        io.emit('desafio_actualizado', { id_desafio, nuevo_estado: 'RECHAZADO' });
+        
+        res.json({ message: `Desafío rechazado con éxito.` });
+    } catch (error) {
+        console.error("Error al rechazar desafío:", error);
+        res.status(500).json({ message: 'Error interno al rechazar el desafío.' });
     }
 };
 
@@ -157,44 +244,90 @@ exports.responderDesafio = async (req, res) => {
     }
 };
 
-// (FALTA) Lógica para jugar un desafío aceptado y registrar resultados de ambos jugadores.
-// Esto requeriría manejar el estado del desafío ('En Curso', 'Finalizado'),
-// almacenar los puntajes de ambos usuarios para ESE desafío específico, y determinar un ganador.
-// Es significativamente más complejo y probablemente necesite WebSockets para una experiencia en tiempo real.
-// Registrar resultado y finalizar desafío si ambos jugadores terminaron
+
 exports.finalizarDesafio = async (req, res) => {
   const id_user = req.userId;
-  const { id_desafio, puntaje } = req.body;
+  const { id_desafio, puntaje , respuestas} = req.body;
 
-  if (!id_desafio || puntaje === undefined) {
+  if (!id_desafio || puntaje === undefined || !respuestas) {
     return res.status(400).json({ message: 'Faltan datos para finalizar desafío.' });
   }
-
+  let connection;
   try {
-    // Guardar o actualizar el puntaje del usuario para el desafío
-    await db.query(`
-      INSERT INTO desafio_resultados (id_desafio, id_user, puntaje)
-      VALUES (?, ?, ?)
-      ON DUPLICATE KEY UPDATE puntaje = VALUES(puntaje);
-    `, [id_desafio, id_user, puntaje]);
+    connection = await db.getConnection();
+    await connection.query(`
+            INSERT INTO desafio_resultados (id_desafio, id_user, puntaje)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE puntaje = VALUES(puntaje);
+        `, [id_desafio, id_user, puntaje]);
 
-    // Verificar cuántos jugadores ya entregaron resultados
-    const [resultados] = await db.query(`
-      SELECT COUNT(DISTINCT id_user) AS total_jugadores FROM desafio_resultados WHERE id_desafio = ?;
-    `, [id_desafio]);
+    // 2. Obtener datos necesarios para la tabla historial_tests
+    const [desafioInfo] = await connection.query(
+            'SELECT id_test_base, fecha_inicio FROM desafios WHERE id_desafio = ?',
+            [id_desafio]
+        );
 
-    // Suponiendo que un desafío es entre 2 jugadores
+    if (desafioInfo.length === 0) {
+      return res.status(404).json({ message: 'Información del desafío no encontrada para el historial.' });
+    }
+    const { id_test_base, fecha_inicio } = desafioInfo[0];
+    const duracion_segundos = Math.round((new Date() - new Date(fecha_inicio)) / 1000);
+    
+    // Obtener el total de preguntas para calcular el puntaje máximo (total)
+    const [preguntasData] = await connection.query(
+            'SELECT COUNT(id_pregunta) as total_preguntas FROM desafio_preguntas WHERE id_desafio = ?',
+            [id_desafio]
+        );
+    const total_preguntas = preguntasData.length > 0 ? preguntasData[0].total_preguntas : 0;
+    const puntaje_maximo = total_preguntas * 10; 
+
+    // 3. Insertar el registro en la tabla historial_tests para este usuario
+    const [historialResult] = await connection.query(
+            `INSERT INTO historial_tests (id_user, id_test, fecha, puntaje, total, duracion_segundos)
+             VALUES (?, ?, NOW(), ?, ?, ?);`,
+            [id_user, id_test_base, puntaje, puntaje_maximo, duracion_segundos]
+        );
+    const id_historial = historialResult.insertId;
+    //4.resultado_pregunta
+    if (respuestas && respuestas.length > 0) {
+            for (const respuesta of respuestas) {
+                // Verificamos si la respuesta dada es correcta
+                const [infoRespuesta] = await connection.query(
+                    'SELECT es_correcta FROM respuestas WHERE id_respuesta = ?',
+                    [respuesta.id_respuesta]
+                );
+                const es_correcta = (infoRespuesta.length > 0 && infoRespuesta[0].es_correcta === 1) ? 1 : 0;
+                
+                // Insertamos el detalle para la página de revisión
+                await connection.query(
+                    `INSERT INTO resultado_pregunta (id_historial, id_pregunta, id_respuesta, es_correcta)
+                     VALUES (?, ?, ?, ?);`,
+                    [id_historial, respuesta.id_pregunta, respuesta.id_respuesta, es_correcta]
+                );
+            }
+        }
+    // 5. Verificar si ambos jugadores han terminado para actualizar el estado general del desafío
+    const [resultados] = await connection.query(
+            'SELECT COUNT(DISTINCT id_user) AS total_jugadores FROM desafio_resultados WHERE id_desafio = ?',
+            [id_desafio]
+    );
+
     if (resultados[0].total_jugadores >= 2) {
-      // Actualizar estado a Finalizado (supongamos ID 5)
-      const ID_ESTADO_FINALIZADO = 5;
-      await db.query(`UPDATE desafios SET id_estado = ? WHERE id_desafio = ?`, [ID_ESTADO_FINALIZADO, id_desafio]);
+      const ID_ESTADO_FINALIZADO = 5; // ID para el estado "Finalizado" en tu DB
+      await db.query(
+        'UPDATE desafios SET id_estado = ?, fecha_fin = NOW() WHERE id_desafio = ?',
+        [ID_ESTADO_FINALIZADO, id_desafio]
+      );
     }
 
-    res.json({ message: 'Resultado guardado exitosamente.' });
+    res.json({ message: 'Resultado y historial guardados exitosamente.' });
 
   } catch (error) {
+    if (connection) await connection.rollback();
     console.error('Error al finalizar desafío:', error);
     res.status(500).json({ message: 'Error interno al finalizar desafío.' });
+  }finally {
+    if (connection) connection.release();
   }
 };
 // Obtener preguntas y respuestas del desafío para frontend

@@ -2,8 +2,7 @@
 import React from 'react';
 import { Outlet, NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import './Layout.css'; // Reutiliza algunos estilos y añade específicos si es necesario
-// Podrías crear un AdminLayout.css si los estilos se vuelven muy complejos
+import './Layout.css'; 
 
 function AdminLayout() {
   const { user, logout } = useAuth();
@@ -22,12 +21,12 @@ function AdminLayout() {
         </div>
         <nav>
           <ul>
-            <li>
-              <NavLink to="/admin/dashboard" className={({isActive}) => isActive ? activeAdminLink : inactiveAdminLink}>
-                {/* Icono para Dashboard */}
+            {/*<li>
+              <NavLink to="/admin/stats" className={({isActive}) => isActive ? activeAdminLink : inactiveAdminLink}>
+                {/* Icono para Dashboard 
                 <span role="img" aria-label="dashboard" className="icon">📊</span> Dashboard
               </NavLink>
-            </li>
+            </li>*/}
             <li>
               <NavLink to="/admin/preguntas" className={({isActive}) => isActive ? activeAdminLink : inactiveAdminLink}>
                 {/* Icono para Preguntas */}
@@ -46,7 +45,7 @@ function AdminLayout() {
                 <span role="img" aria-label="usuarios" className="icon">👥</span> Usuarios
               </NavLink>
             </li>
-            {/* Añadir más enlaces de admin aquí (Categorías, Dificultades, etc.) */}
+            {}
           </ul>
         </nav>
         <div className="admin-sidebar-footer">
@@ -62,7 +61,7 @@ function AdminLayout() {
       </aside>
       <main className="admin-main-content-wrapper">
         <div className="admin-main-content container fade-in">
-          <Outlet /> {/* Aquí se renderizarán las páginas de admin */}
+          <Outlet /> {}
         </div>
       </main>
     </div>
